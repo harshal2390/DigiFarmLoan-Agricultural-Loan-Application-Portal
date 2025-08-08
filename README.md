@@ -48,5 +48,4 @@ It also offers an admin interface for managing applications, approvals, and loan
 
 ---
 
-## 📂 Project Structure
 
