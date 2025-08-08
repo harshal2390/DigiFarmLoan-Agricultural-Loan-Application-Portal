@@ -1,0 +1,225 @@
+<%@ page import="java.util.*"%>
+<%@ page import="model.LoanAppications"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DigiFarmLoan – Farmer Loan Applications</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* Reset & Base Styling */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Segoe UI', sans-serif;
+	background-color: #f4f6f8;
+	color: #333;
+	display: flex;
+	min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+	width: 220px;
+	background-color: #198754;
+	color: white;
+	flex-shrink: 0;
+	padding-top: 30px;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.sidebar h3 {
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 1.3rem;
+}
+
+.sidebar a {
+	display: block;
+	color: white;
+	padding: 14px 20px;
+	text-decoration: none;
+	font-size: 1rem;
+	transition: background 0.3s ease;
+}
+
+.sidebar a:hover {
+	background-color: #157347;
+}
+
+/* Main Content */
+.main-content {
+	margin-left: 220px;
+	width: calc(100% - 220px);
+	padding: 20px;
+}
+
+header {
+	background-color: #198754;
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	font-size: 1.8rem;
+	letter-spacing: 1px;
+	font-weight: bold;
+}
+
+.container {
+	background: #fff;
+	padding: 30px 40px;
+	border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	margin-top: 30px;
+}
+
+h2 {
+	margin-bottom: 25px;
+	font-size: 1.6rem;
+	color: #222;
+}
+
+/* Table */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+thead {
+	background-color: #20c997;
+	color: white;
+}
+
+th, td {
+	padding: 14px 16px;
+	text-align: left;
+}
+
+tbody tr {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+.no-data {
+	text-align: center;
+	padding: 20px;
+	color: #777;
+}
+
+/* Apply Loan Button */
+.apply-btn {
+	display: inline-block;
+	margin-top: 25px;
+	background-color: #198754;
+	color: #fff;
+	padding: 12px 24px;
+	border: none;
+	border-radius: 8px;
+	text-decoration: none;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background 0.3s ease;
+}
+
+.apply-btn:hover {
+	background-color: #157347;
+}
+
+.footer {
+	margin-top: 40px;
+	text-align: center;
+	font-size: 0.9rem;
+	color: #999;
+}
+
+/* Responsive */
+@media ( max-width : 768px) {
+	.sidebar {
+		width: 100%;
+		position: relative;
+	}
+	.main-content {
+		margin-left: 0;
+		width: 100%;
+	}
+}
+</style>
+</head>
+<body>
+
+	<!-- Sidebar for Farmer -->
+	<div class="sidebar">
+		<h3>Farmer Panel</h3>
+		<a href="farmerLoanApplcationView">View Loan Applications</a>
+		<a href="applyforLoan">Apply for Loan</a>
+		<a href="logout.jsp">Logout</a>
+	</div>
+
+	<!-- Main Content -->
+	<div class="main-content">
+		<header>DigiFarmLoan – Loan Applications</header>
+
+		<div class="container">
+			<h2>Your Loan Applications</h2>
+
+			<%
+				List<LoanAppications> allLoans = (List<LoanAppications>) request.getAttribute("allLoans");
+				if (allLoans != null && !allLoans.isEmpty()) {
+			%>
+			<table>
+				<thead>
+					<tr>
+						<th>Loan ID</th>
+						<th>Farmer ID</th>
+						<th>Loan Amount</th>
+						<th>Purpose</th>
+						<th>Application Date</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+						for (LoanAppications loan : allLoans) {
+					%>
+					<tr>
+						<td><%=loan.getContact()%></td>
+						<td><%=loan.getFarmerContactId()%></td>
+						<td><%=loan.getLoanAmount()%></td>
+						<td><%=loan.getPurpose()%></td>
+						<td><%=loan.getApplicationDate()%></td>
+						<td><%=loan.getStatus()%></td>
+					</tr>
+					<%
+						}
+					%>
+				</tbody>
+			</table>
+			<%
+				} else {
+			%>
+			<div class="no-data">No loan applications found.</div>
+			<%
+				}
+			%>
+
+			<!-- Apply Button -->
+			<a class="apply-btn" href="applyforLoan">Apply for New Loan</a>
+		</div>
+
+		<div class="footer">&copy; 2025 DigiFarmLoan. All rights reserved.</div>
+	</div>
+
+</body>
+</html>
